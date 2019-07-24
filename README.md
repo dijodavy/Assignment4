@@ -129,3 +129,110 @@ namespace SeleniumTests
             Assert.AreEqual("http://www.jdpower.com/cars/2019/Honda/civic", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[9]/a")).Text);
             driver.FindElement(By.LinkText("http://www.jdpower.com/cars/2019/Honda/civic")).Click();
         }
+
+ [Test]
+        public void Automobile_ActualInvalidfiemailYearEntry_ExpectedDetectinvalidEmailandyearEntryTest()
+        {
+            driver.Navigate().GoToUrl("http://localhost/web.html");
+            driver.FindElement(By.Name("name")).Clear();
+            driver.FindElement(By.Name("name")).SendKeys("Thomas");
+            driver.FindElement(By.Name("Address")).Clear();
+            driver.FindElement(By.Name("Address")).SendKeys("333 brock avenue");
+            driver.FindElement(By.Name("City")).Clear();
+            driver.FindElement(By.Name("City")).SendKeys("Toronto");
+            driver.FindElement(By.Name("Phone")).Clear();
+            driver.FindElement(By.Name("Phone")).SendKeys("778-554-7454");
+            driver.FindElement(By.Name("Make")).Clear();
+            driver.FindElement(By.Name("Make")).SendKeys("mercedes benz");
+            driver.FindElement(By.Name("Model")).Clear();
+            driver.FindElement(By.Name("Model")).SendKeys("a class");
+            driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Vehicle Year'])[1]/following::input[2]")).Click();
+            driver.FindElement(By.Name("email")).Clear();
+            driver.FindElement(By.Name("email")).SendKeys("thomas222@gmail.com");
+            driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Vehicle Year'])[1]/following::input[2]")).Click();
+            driver.FindElement(By.Name("Year")).Clear();
+            driver.FindElement(By.Name("Year")).SendKeys("2019");
+            driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Vehicle Year'])[1]/following::input[2]")).Click();
+            Assert.AreEqual("thomas222@gmail.com", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[5]")).Text);
+            Assert.AreEqual("2019", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[8]")).Text);
+            driver.FindElement(By.LinkText("http://www.jdpower.com/cars/2019/mercedes-benz/a-class")).Click();
+        }
+        [Test]
+        public void Automobile_ActualInvalidphonenumber_ExpectedDetectInvalidphonenumber()
+        {
+            driver.Navigate().GoToUrl("http://localhost/web.html");
+            driver.FindElement(By.Name("name")).Clear();
+            driver.FindElement(By.Name("name")).SendKeys("Dijo");
+            driver.FindElement(By.Name("Address")).Clear();
+            driver.FindElement(By.Name("Address")).SendKeys("111 vilson street");
+            driver.FindElement(By.Name("City")).Clear();
+            driver.FindElement(By.Name("City")).SendKeys("Cambridge");
+            driver.FindElement(By.Name("Phone")).Clear();
+            driver.FindElement(By.Name("Phone")).SendKeys("2264547845");
+            driver.FindElement(By.Name("email")).Clear();
+            driver.FindElement(By.Name("email")).SendKeys("dijo111@gmail.com");
+            driver.FindElement(By.Name("Make")).Clear();
+            driver.FindElement(By.Name("Make")).SendKeys("ford");
+            driver.FindElement(By.Name("Model")).Clear();
+            driver.FindElement(By.Name("Model")).SendKeys("fusion");
+            driver.FindElement(By.Name("Year")).Clear();
+            driver.FindElement(By.Name("Year")).SendKeys("2019");
+            driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Vehicle Year'])[1]/following::input[2]")).Click();
+            driver.FindElement(By.Name("Phone")).Clear();
+            driver.FindElement(By.Name("Phone")).SendKeys("22645478452");
+            driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Vehicle Year'])[1]/following::input[2]")).Click();
+            driver.FindElement(By.Name("Phone")).Clear();
+            driver.FindElement(By.Name("Phone")).SendKeys("226-454-7845");
+            driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Vehicle Year'])[1]/following::input[2]")).Click();
+            Assert.AreEqual("226-454-7845", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[4]")).Text);
+            driver.FindElement(By.LinkText("http://www.jdpower.com/cars/2019/ford/fusion")).Click();
+        }
+        private bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        private bool IsAlertPresent()
+        {
+            try
+            {
+                driver.SwitchTo().Alert();
+                return true;
+            }
+            catch (NoAlertPresentException)
+            {
+                return false;
+            }
+        }
+
+        private string CloseAlertAndGetItsText()
+        {
+            try
+            {
+                IAlert alert = driver.SwitchTo().Alert();
+                string alertText = alert.Text;
+                if (acceptNextAlert)
+                {
+                    alert.Accept();
+                }
+                else
+                {
+                    alert.Dismiss();
+                }
+                return alertText;
+            }
+            finally
+            {
+                acceptNextAlert = true;
+            }
+        }
+    }
+}
