@@ -97,3 +97,35 @@ namespace SeleniumTests
             driver.FindElement(By.LinkText("http://www.jdpower.com/cars/2018/honda/fusion")).Click();
             Assert.AreEqual("404 - NOT FOUND", driver.FindElement(By.XPath("/html/body/div[3]/section/div/main/div[1]/div[1]/h1")).Text);
         }
+        
+        [Test]
+        public void Automobile_ActualValidinputs_ExpectDirectToRespectiveJdpowerpage()
+        {
+            driver.Navigate().GoToUrl("http://localhost/web.html");
+            driver.FindElement(By.Name("name")).Clear();
+            driver.FindElement(By.Name("name")).SendKeys("Freddy");
+            driver.FindElement(By.Name("Address")).Clear();
+            driver.FindElement(By.Name("Address")).SendKeys("45 bresley drive");
+            driver.FindElement(By.Name("City")).Clear();
+            driver.FindElement(By.Name("City")).SendKeys("kitchener");
+            driver.FindElement(By.Name("Phone")).Clear();
+            driver.FindElement(By.Name("Phone")).SendKeys("519-474-8888");
+            driver.FindElement(By.Name("email")).Clear();
+            driver.FindElement(By.Name("email")).SendKeys("freddy90@gmail.com");
+            driver.FindElement(By.Name("Make")).Clear();
+            driver.FindElement(By.Name("Make")).SendKeys("Honda");
+            driver.FindElement(By.Name("Model")).Clear();
+            driver.FindElement(By.Name("Model")).SendKeys("civic");
+            driver.FindElement(By.Name("Year")).Clear();
+            driver.FindElement(By.Name("Year")).SendKeys("2019");
+            driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Vehicle Year'])[1]/following::input[2]")).Click();
+            Assert.AreEqual("Freddy", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[1]")).Text);
+            Assert.AreEqual("45 bresley drive", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[2]")).Text);
+            Assert.AreEqual("519-474-8888", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[4]")).Text);
+            Assert.AreEqual("freddy90@gmail.com", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[5]")).Text);
+            Assert.AreEqual("Honda", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[6]")).Text);
+            Assert.AreEqual("civic", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[7]")).Text);
+            Assert.AreEqual("2019", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[8]")).Text);
+            Assert.AreEqual("http://www.jdpower.com/cars/2019/Honda/civic", driver.FindElement(By.XPath("/html/body/table/tbody/tr/td[9]/a")).Text);
+            driver.FindElement(By.LinkText("http://www.jdpower.com/cars/2019/Honda/civic")).Click();
+        }
